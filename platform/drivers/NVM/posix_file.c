@@ -52,24 +52,34 @@ static int nvm_api_read(const struct nvmDevice *dev, uint32_t offset,
                         void *data, size_t len)
 {
     struct nvmFileDevice *pDev = (struct nvmFileDevice *)(dev);
+    int ret;
 
     if (pDev->fd < 0)
         return -EBADF;
 
     lseek(pDev->fd, offset, SEEK_SET);
-    return read(pDev->fd, data, len);
+    ret = read(pDev->fd, data, len);
+    if (ret < 0)
+        return errno;
+
+    return 0;
 }
 
 static int nvm_api_write(const struct nvmDevice *dev, uint32_t offset,
                          const void *data, size_t len)
 {
     struct nvmFileDevice *pDev = (struct nvmFileDevice *)(dev);
+    int ret;
 
     if (pDev->fd < 0)
         return -EBADF;
 
     lseek(pDev->fd, offset, SEEK_SET);
-    return write(pDev->fd, data, len);
+    ret = write(pDev->fd, data, len);
+    if (ret < 0)
+        return errno;
+
+    return 0;
 }
 
 const struct nvmOps posix_file_ops = {
