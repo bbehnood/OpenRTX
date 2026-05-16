@@ -50,7 +50,8 @@ extern const struct nvmInfo posix_file_info;
  * @param dev: pointer to device descriptor.
  * @param fileName: full path of the file used for data storage.
  * @param size: file size.
- * @return zero on success, a negative error code otherwise.
+ * @return a negative value on error, 1 if a new file has been created and 0
+ * if an already existing file has been used.
  */
 int posixFile_init(struct nvmFileDevice *dev, const char *fileName,
                    const size_t size);

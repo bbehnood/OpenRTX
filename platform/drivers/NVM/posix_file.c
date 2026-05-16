@@ -32,7 +32,7 @@ int posixFile_init(struct nvmFileDevice *dev, const char *fileName,
 
     dev->fd = fd;
 
-    return 0;
+    return (flags & O_CREAT) ? 1 : 0;
 }
 
 int posixFile_terminate(struct nvmFileDevice *dev)
